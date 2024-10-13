@@ -36,9 +36,17 @@ Ensure the following Python libraries are installed:
 pip install pandas openpyxl
 ```
 
+## Code Structure
+
+The code is organized into a modular and easily understandable format. Below is an overview of the structure of the Python script:
+
+```plaintext
 📂 attendance-record-generation
-┣ 📜 attendance_record.py # Main script to process the attendance data
-┣ 📜 stud_list.txt # Input file: Student list
-┣ 📜 dates.txt # Input file: Lecture dates
-┣ 📜 input_attendance.csv # Input file: Attendance records
-┗ 📜 output_excel.xlsx # Output file: Generated Excel file with attendance
+ ┣ 📜 attendance_record.py        # Main script to handle the processing and generation of attendance records
+ ┣ 📜 utils.py                    # Helper functions for file reading, attendance calculation, and Excel formatting
+ ┣ 📜 constants.py                # Stores constants like lecture timings and column mappings for better code readability
+ ┣ 📜 stud_list.txt               # Input file: Student list
+ ┣ 📜 dates.txt                   # Input file: Lecture dates
+ ┣ 📜 input_attendance.csv        # Input file: Attendance records
+ ┗ 📜 output_excel.xlsx           # Output file: Generated Excel file with attendance
+```
