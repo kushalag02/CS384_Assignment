@@ -26,7 +26,8 @@ This project is designed to process attendance data for students and generate a 
 
 ### 1. pandas
 
-- **Description**: `pandas` is a powerful data manipulation and analysis library for Python. It provides data structures like Series and DataFrames, which allow for easy handling of structured data, including reading from and writing to various file formats such as CSV and Excel.
+- **Description**: `pandas` is a data manipulation and analysis library for Python that provides DataFrames for handling structured data and supports reading from and writing to formats like CSV and Excel.
+
 - **Installation**:
   ```bash
   pip install pandas
@@ -34,7 +35,8 @@ This project is designed to process attendance data for students and generate a 
 
 ### 2. openpyxl
 
-- **Description**: `openpyxl` is a library for reading and writing Excel files in Python. It allows you to create, modify, and format Excel spreadsheets. This library supports various features such as styling, adding charts, and conditional formatting, making it ideal for generating complex Excel reports programmatically.
+- **Description**: `openpyxl` is a Python library for reading and writing Excel files, allowing you to create, modify, and format spreadsheets with features like styling, charts, and conditional formatting.
+
 - **Installation**:
   ```bash
   pip install openpyxl
@@ -42,7 +44,8 @@ This project is designed to process attendance data for students and generate a 
 
 ### 3. datetime (built-in library)
 
-- **Description**: The `datetime` module supplies classes for manipulating dates and times. It provides functions to work with date and time arithmetic and formatting, which are essential for tracking attendance based on timestamps. This module is part of the Python Standard Library and does not require separate installation.
+- **Description**: The `datetime` module provides classes for manipulating dates and times, including arithmetic and formatting functions. It is part of the Python Standard Library and requires no separate installation.
+
 - **Installation**: No installation required. This module is included with Python.
 
 ## File Structure
@@ -50,9 +53,8 @@ This project is designed to process attendance data for students and generate a 
 The project contains the following key files:
 
 ```bash
-.
-├── input_attendance_raw.csv        # Original attendance data with roll number and name combined.
-├── input_attendance_processed.csv   # Processed attendance data with roll number and name split.
+├── input_attendance.csv            # Original attendance data with roll number and name combined.
+├── input_attendance_processed.csv  # Processed attendance data with roll number and name split.
 ├── stud_list.txt                   # List of students in the format 'RollNumber Name'.
 ├── dates.txt                       # Comma-separated lecture dates (e.g., 06/08/2024, 13/08/2024).
 ├── output_excel.xlsx               # Final Excel report with color-coded attendance status.
