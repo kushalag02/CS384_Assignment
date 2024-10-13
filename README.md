@@ -9,12 +9,8 @@ This project is designed to process attendance data for students and generate a 
 ## Table of Contents
 
 - [Features](#features)
+- [Libraries Used](#libraries-used)
 - [File Structure](#file-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Functions Overview](#functions-overview)
-- [Output](#output)
-- [License](#license)
 
 ## Features
 
@@ -26,11 +22,34 @@ This project is designed to process attendance data for students and generate a 
   - **Full attendance (2)**: Highlighted in Green.
   - **Else**: No highlight.
 
+## Libraries Used
+
+### 1. pandas
+
+- **Description**: `pandas` is a powerful data manipulation and analysis library for Python. It provides data structures like Series and DataFrames, which allow for easy handling of structured data, including reading from and writing to various file formats such as CSV and Excel.
+- **Installation**:
+  ```bash
+  pip install pandas
+  ```
+
+### 2. openpyxl
+
+- **Description**: `openpyxl` is a library for reading and writing Excel files in Python. It allows you to create, modify, and format Excel spreadsheets. This library supports various features such as styling, adding charts, and conditional formatting, making it ideal for generating complex Excel reports programmatically.
+- **Installation**:
+  ```bash
+  pip install openpyxl
+  ```
+
+### 3. datetime (built-in library)
+
+- **Description**: The `datetime` module supplies classes for manipulating dates and times. It provides functions to work with date and time arithmetic and formatting, which are essential for tracking attendance based on timestamps. This module is part of the Python Standard Library and does not require separate installation.
+- **Installation**: No installation required. This module is included with Python.
+
 ## File Structure
 
 The project contains the following key files:
 
-````bash
+```bash
 .
 ├── input_attendance_raw.csv        # Original attendance data with roll number and name combined.
 ├── input_attendance_processed.csv   # Processed attendance data with roll number and name split.
@@ -40,10 +59,4 @@ The project contains the following key files:
 ├── app.py                          # Main Python script for processing attendance.
 ├── README.md                       # This README file.
 
-## Prerequisites
-
-Ensure the following Python libraries are installed:
-
-```bash
-pip install pandas openpyxl
-````
+```
