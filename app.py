@@ -15,8 +15,8 @@ def split_roll_name(input_file, output_file):
 
     df.to_csv(output_file, index=False)
 
-def load_student_list(file):
-    # Accessing the file
+
+def load_student_list(file): # Accessing the file
     students = {}
     with open(file, 'r') as f:
         for line in f:
@@ -24,7 +24,7 @@ def load_student_list(file):
             students[roll] = name
     return students
 
-def load_dates(file):
+def load_dates(file): # Made changes according to the format of dates.txt
     with open(file, 'r') as f:
         dates = f.read().strip().split(', ')
     return dates
@@ -35,8 +35,7 @@ def process_attendance(file):
     data['Timestamp'] = pd.to_datetime(data['Timestamp'], format='%d-%m-%Y %H:%M')
     return data
 
-def get_attendance_status(attendance_data, dates, students):
-    # Process attendance data by iterating
+def get_attendance_status(attendance_data, dates, students): # Processing attendence data by iterating
     attendance_summary = {roll: {date: 0 for date in dates} for roll in students.keys()}
 
     for roll in students.keys():
@@ -47,8 +46,8 @@ def get_attendance_status(attendance_data, dates, students):
 
             # Filter attendance for the student within the lecture time window
             student_attendance = attendance_data[
-                (attendance_data['Roll Number'] == roll) &
-                (attendance_data['Timestamp'] >= lecture_time_start) &
+                (attendance_data['Roll Number'] == roll) & 
+                (attendance_data['Timestamp'] >= lecture_time_start) & 
                 (attendance_data['Timestamp'] <= lecture_time_end)
             ]
 
@@ -64,21 +63,24 @@ def get_attendance_status(attendance_data, dates, students):
 
     return attendance_summary
 
-def totalAttendanceCount(input_file):
-    """
-    Calculate total attendance from the processed attendance file.
-    """
-    df = pd.read_csv(input_file)
-    total_attendance = df.groupby('Roll Number').size()
-    return total_attendance
-
-def generate_excel(summary, students, dates, total_attendance, total_classes_taken, output_file):
-    # Create a DataFrame from the summary
-    df = pd.DataFrame(summary).T
-    df.index = [f"{roll} {students[roll]}" for roll in df.index]
-
-    # Set dates as column headers
+# Step 4: Generate Excel output with formatting
+def generate_excel(attendance_summary, students, dates, output_file):
+    # Create a DataFrame for the output with roll number and names as index
+    df = pd.DataFrame(attendance_summary).T
+    df.index = [f"{roll} {students[roll]}" for roll in df.index]  # Format index as 'Roll Number Name'
     df.columns = dates
+
+    # Add the total attendance count from input_attendance.csv
+    df['Total Attendance Marked'] = df.index.map(lambda x: total_attendance.get(x.split()[0], 0))
+
+    # Add the sum of attendance values for each student (this replaces the valid attendance count)
+    df['Sum of Attendance'] = df[dates].sum(axis=1)
+
+    # Add the total number of classes taken (same for all students)
+    df['Total Attendance Allowed'] = total_classes_taken
+
+    # Add the 'Proxy' column (modulus of Total Attendance Count - Sum of Attendance)
+    df['Proxy'] = (df['Total Attendance Marked'] - df['Sum of Attendance']).abs()
 
     # Adding extra columns for total attendance and proxy
     df['Total Attendance Marked'] = df.index.map(lambda x: total_attendance.get(x.split()[0], 0))
@@ -109,25 +111,14 @@ def generate_excel(summary, students, dates, total_attendance, total_classes_tak
     writer.close()
 
 def main():
-    # Process the input file and split roll names
-    split_roll_name('input_attendance.csv', 'input_attendance_processed.csv')
-
-    # Load student list and dates
-    students = load_student_list('stud_list.txt')
-    dates = load_dates('dates.txt')
-
-    # Process attendance
+    split_roll_name('input_attendance.csv','input_attendance_processed.csv')
+    students = load_student_list('stud_list.txt')  # Load roll numbers and names
+    dates = load_dates('dates.txt')  # Modified to handle comma-separated dates
     attendance_data = process_attendance('input_attendance_processed.csv')
 
     # Get attendance summary
     attendance_summary = get_attendance_status(attendance_data, dates, students)
-
-    # Calculate total attendance
-    total_classes_taken = 2 * len(dates)
-    total_attendance = totalAttendanceCount('input_attendance_processed.csv')
-
-    # Generate Excel file
-    generate_excel(attendance_summary, students, dates, total_attendance, total_classes_taken, 'output_excel.xlsx')
+    generate_excel(attendance_summary, students, dates, 'output_excel.xlsx')
 
 if __name__ == "__main__":
     main()
